@@ -1,0 +1,171 @@
+/* ========================= */
+/* TASKBAR BASE */
+/* ========================= */
+#taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 52px;
+
+    background: rgba(30, 30, 30, 0.75);
+    backdrop-filter: blur(8px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    z-index: 999;
+}
+
+
+
+/* ========================= */
+/* CENTER – PINNED APPS */
+/* ========================= */
+
+#pinned-apps {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.app-icon {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 5px;
+    /* background: rgba(255, 255, 255, 0.1); */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.app-icon img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+.app-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+/* When the app is active/running */
+.app-icon.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+
+/* ========================= */
+/* RIGHT SIDE (Clock & Icons) */
+/* ========================= */
+#time-date-others {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    position: absolute;
+    right: 1%;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/* ========================= */
+/* HIDDEN ICONS */
+/* ========================= */
+
+.hidden-icons {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    padding: 0.8rem 0.5rem;
+    background: rgba(255, 255, 255, 0);
+    border-radius: 4px;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.arrow.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.arrow .ri-arrow-up-s-line {
+    font-size: 18px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+/* Rotates on click via JS */
+.arrow.rotate .ri-arrow-up-s-line {
+    transform: rotate(180deg);
+}
+
+
+
+/* ========================= */
+/* TIME + DATE */
+/* ========================= */
+
+#time-date {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+
+    font-size: 12px;
+    color: white;
+
+    user-select: none;
+}
+
+
+
+/* ========================= */
+/* NOTIFICATION ICON */
+/* ========================= */
+
+#notification-icon {
+    padding: 0.8rem 0.5rem;
+    border-radius: 4px;
+
+    cursor: pointer;
+}
+
+#notification-icon i {
+    font-size: 18px;
+    color: white;
+}
+
+#notification-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#notification-icon.active {
+    background: rgba(255, 255, 255, 0.2);
+}

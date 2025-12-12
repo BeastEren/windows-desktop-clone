@@ -6,45 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WinDesk.js</title>
 
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
+
     <!-- CSS -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/desktop.css">
-    <link rel="stylesheet" href="css/taskbar.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/desktop.css">
+    <link rel="stylesheet" href="./css/taskbar.css">
+    <link rel="stylesheet" href="./css/contextmenu.css">
+
 </head>
 
 <body>
-    <!-- Desktop Area -->
+
+    <!-- ========================= -->
+    <!-- DESKTOP AREA -->
+    <!-- ========================= -->
     <main id="desktop">
-        <!-- Desktop icons will live here -->
-        <!-- Grid for now, absolute later -->
+        <!-- Desktop icons will be placed here (grid initially, absolute later) -->
+        <!-- Desktop Right-Click Menu -->
+        <div id="context-menu">
+            <ul>
+                <li>View</li>
+                <li>Sort by</li>
+                <li>Refresh</li>
+                <li class="separator"></li>
+
+                <li>Next desktop background</li>
+                <li>Undo Delete</li>
+                <li>New</li>
+                <li class="separator"></li>
+
+                <li>Display settings</li>
+                <li>Personalize</li>
+                <li class="separator"></li>
+
+                <li>Open in Terminal</li>
+                <li class="separator"></li>
+
+                <li>Show more options</li>
+            </ul>
+        </div>
+
     </main>
 
-    <!-- Taskbar -->
+
+    <!-- ========================= -->
+    <!-- TASKBAR -->
+    <!-- ========================= -->
     <footer id="taskbar">
-        <!-- Start button, running apps, clock -->
+
+        <!-- ---------- CENTER (Pinned Apps) ---------- -->
         <section id="pinned-apps">
-            <!-- Pinned apps will go here -->
-            <div class="start">
-                <!-- <img src="assets/start-icon.png" alt="Start Menu" /> -->
+
+            <div class="app-icon windows-start">
+                <img src="./assets/icons/windows-start.webp" alt="Start Menu" />
             </div>
-            <div class="file-explorer">
-                <!-- <img src="assets/file-explorer-icon.png" alt="File Explorer" /> -->
+
+            <div class="app-icon file-explorer">
+                <img src="./assets/icons/file-explorar.png" alt="File Explorer" />
             </div>
-            <div class="discord">
-                <!-- <img src="assets/discord-icon.png" alt="Discord" /> -->
+
+            <div class="app-icon discord">
+                <img src="./assets/icons/discord.png" alt="Discord" />
             </div>
 
         </section>
+
+
+        <!-- ---------- RIGHT SIDE (Clock, Icons, Notifications) ---------- -->
         <section id="time-date-others">
+
+            <!-- Hidden taskbar icons -->
+            <div class="hidden-icons">
+                <div class="arrow center">
+                    <i class="ri-arrow-up-s-line"></i>
+                    <!-- This arrow will toggle visibility of hidden icons (JS) -->
+                </div>
+            </div>
+
+            <!-- Time + Date -->
             <div id="time-date">
+                <!-- JS will update these automatically -->
                 <span id="time">12:00 PM</span>
                 <span id="date">01/01/2024</span>
             </div>
+
+            <!-- Notification Icon -->
+            <div id="notification-icon">
+                <i class="ri-notification-snooze-line center"></i>
+                <!-- Icon toggles via JS between snooze/active -->
+            </div>
+
         </section>
     </footer>
 
     <!-- JS -->
-    <script src="js/main.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,24 @@
+/* reset.css */
+
+/* Remove default spacing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Smooth font rendering */
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    overflow: hidden;
+    color: white;
+    /* Prevent scrollbars on the desktop */
+}
+
+img {
+    user-select: none;
+    pointer-events: none;
+}
