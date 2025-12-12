@@ -76,7 +76,6 @@
 #time-date-others {
     display: flex;
     align-items: center;
-    gap: 15px;
 
     position: absolute;
     right: 1%;
@@ -140,8 +139,16 @@
 
     font-size: 12px;
     color: white;
+    padding: 0.55rem 0.5rem;
 
+    cursor: pointer;
     user-select: none;
+    transition: 0.2s ease;
+}
+
+#time-date:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
 }
 
 
@@ -168,4 +175,58 @@
 
 #notification-icon.active {
     background: rgba(255, 255, 255, 0.2);
+}
+
+
+#calendar-popup {
+    position: fixed;
+    bottom: 60px;
+    right: 10px;
+    width: 400px;
+    padding: 15px;
+    border-radius: 10px;
+
+    background: rgba(40, 40, 40, 0.95);
+    backdrop-filter: blur(8px);
+    color: white;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+    display: none;
+    z-index: 1000;
+}
+
+#calendar-header {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    font-size: 14px;
+}
+
+#calendar-grid div {
+    padding: 8px;
+    text-align: center;
+    border-radius: 6px;
+}
+
+#calendar-grid div:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.current-day {
+    background: #0078d4;
+    color: white;
+    border-radius: 6px;
+}
+
+.calendar-weekday {
+    font-weight: bold;
+    opacity: 0.6;
 }
