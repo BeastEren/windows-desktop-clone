@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WinDesk.js</title>
+    <title>WinDesktop</title>
+    <link rel="icon" href="./assets/icons/windows-start.webp" type="image/x-icon">
 
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
@@ -24,6 +25,7 @@
     <!-- ========================= -->
     <main id="desktop">
         <!-- Desktop icons will be placed here (grid initially, absolute later) -->
+
         <!-- Desktop Right-Click Menu -->
         <div id="context-menu">
             <ul>
@@ -54,8 +56,19 @@
     <!-- ========================= -->
     <!-- TASKBAR -->
     <!-- ========================= -->
-    <footer id="taskbar">
 
+    <!-- START MENU POPUP -->
+    <div id="start-menu">
+        <div class="start-header">Pinned</div>
+        <div class="start-grid">
+            <div class="start-app">Edge</div>
+            <div class="start-app">Settings</div>
+            <div class="start-app">Store</div>
+            <div class="start-app">Terminal</div>
+        </div>
+    </div>
+
+    <footer id="taskbar">
         <!-- ---------- CENTER (Pinned Apps) ---------- -->
         <section id="pinned-apps">
 
@@ -73,7 +86,6 @@
 
         </section>
 
-
         <!-- ---------- RIGHT SIDE (Clock, Icons, Notifications) ---------- -->
         <section id="time-date-others">
 
@@ -81,7 +93,17 @@
             <div class="hidden-icons">
                 <div class="arrow center">
                     <i class="ri-arrow-up-s-line"></i>
-                    <!-- This arrow will toggle visibility of hidden icons (JS) -->
+                </div>
+            </div>
+
+            <!-- Hidden taskbar icons popup -->
+            <div id="hidden-icons-popup" class="popup">
+                <div class="tray-icon">
+                    <img src="./assets/icons/nvidia_settings_22459.webp" alt="NVIDIA" />
+                </div>
+
+                <div class="tray-icon">
+                    <img src="./assets/icons/Windows-defender.svg.png" alt="Windows Defender" />
                 </div>
             </div>
 
@@ -91,7 +113,7 @@
                 <span id="time">12:00 PM</span>
                 <span id="date">01/01/2024</span>
 
-                <div id="calendar-popup">
+                <div id="calendar-popup" class="popup">
                     <div id="calendar-header">
                         <span id="cal-month"></span>
                         <span id="cal-year"></span>

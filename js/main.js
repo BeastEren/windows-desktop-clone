@@ -1,57 +1,156 @@
 /* ========================= */
 /* RIGHT-CLICK MENU */
 /* ========================= */
+
+let alarted = false;
 const desktop = document.getElementById("desktop");
 const menu = document.getElementById("context-menu");
-const lis = document.getElementById("context-menu").querySelectorAll("li");
 
+// Elements that should NOT open the menu
+const blockedAreas = ["taskbar", "pinned-apps", "time-date-others"];
+
+// Right-click handler
 document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
-    lis.forEach(li => {
-        if (e.target === desktop || e.target === li) {
-            console.log(e.target === li);
-            const menuWidth = menu.offsetWidth;
-            const menuHeight = menu.offsetHeight;
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight - 50; // 50px taskbar height
 
-            let x = e.clientX;
-            let y = e.clientY;
+    if (!alarted) {
+        alert("Right-click context menu has 'Change Desktop Background' and 'Refresh' options only!");
+        alarted = true;
+    }
 
-            // If menu goes outside RIGHT edge
-            if (x + menuWidth > screenWidth) {
-                x = screenWidth - menuWidth - 5; // 5px padding
-            }
+    // If clicking on blocked area → STOP
+    if (blockedAreas.some(id => document.getElementById(id)?.contains(e.target))) {
+        menu.style.display = "none";
+        return;
+    }
 
-            // If menu goes outside BOTTOM edge
-            if (y + menuHeight > screenHeight) {
-                y = screenHeight - menuHeight - 5;
-            }
+    // If clicking on desktop OR clicking on the menu itself
+    if (desktop.contains(e.target) || menu.contains(e.target)) {
+        /* --------- Calculate menu position --------- */
+        menu.style.display = "block";
+        menu.style.visibility = "hidden"; // render but invisible
 
-            // If menu goes above screen (rare)
-            if (y < 0) y = 0;
+        const menuWidth = menu.offsetWidth;
+        const menuHeight = menu.offsetHeight;
 
-            // If menu goes left of screen (rare)
-            if (x < 0) x = 0;
+        menu.style.visibility = "visible";
 
-            menu.style.display = "block";
-            menu.style.left = `${x}px`;
-            menu.style.top = `${y}px`;
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight - 52; // exclude taskbar
+
+        let x = e.clientX;
+        let y = e.clientY;
+
+        /* --------- Prevent going outside --------- */
+
+        // Right overflow
+        if (x + menuWidth > screenWidth) {
+            x = screenWidth - menuWidth - 5;
         }
-        else {
-            menu.style.display = "none";
-        }
-    });
-});
 
-document.addEventListener("click", () => {
+        // Bottom overflow
+        if (y + menuHeight > screenHeight) {
+            y = screenHeight - menuHeight - 5;
+        }
+
+        // Top overflow (rare)
+        if (y < 0) y = 0;
+
+        // Left overflow (rare)
+        if (x < 0) x = 0;
+
+        /* --------- Apply final position --------- */
+        menu.style.left = `${x}px`;
+        menu.style.top = `${y}px`;
+        menu.style.display = "block";
+
+        return;
+    }
+
+    // Anywhere else → close menu
     menu.style.display = "none";
 });
 
+// LEFT CLICK → close menu unless clicking menu
+document.addEventListener("click", (e) => {
+    if (!menu.contains(e.target)) {
+        menu.style.display = "none";
+    }
+});
+
+/* ========================= */
+/* CONTEXT MENU ITEM CLICK */
+/* ========================= */
+
+menu.addEventListener("click", (e) => {
+    const li = e.target.closest("li");
+
+    // Ignore clicks on separators
+    if (!li || li.classList.contains("separator")) return;
+
+    const action = li.textContent.trim();
+
+    // reloads the page
+    if (action === "Refresh") {
+        location.reload();
+    }
+
+    // Handle menu actions
+    if (action === "Next desktop background") {
+        changeDesktopBackground();
+    }
+
+    // (Later: handle action here based on text / data-attribute)
+    // console.log("Menu action:", li.textContent.trim());
+
+    // Close menu after selection (Windows behavior)
+    menu.style.display = "none";
+});
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/* HIDDEN ICONS TOGGLE */
+/* ========================= */
+
+const hiddenArrow = document.querySelector(".arrow");
+const hiddenPopup = document.getElementById("hidden-icons-popup");
+
+// hiddenArrow.addEventListener("click", (e) => {
+//     e.stopPropagation();
+
+//     const isOpen = hiddenPopup.style.display === "flex";
+
+//     hiddenPopup.style.display = isOpen ? "none" : "flex";
+//     hiddenArrow.classList.toggle("rotate", !isOpen);
+//     hiddenArrow.classList.toggle("active", !isOpen);
+// });
+
+// // Close when clicking anywhere else
+// document.addEventListener("click", () => {
+//     hiddenPopup.style.display = "none";
+//     hiddenArrow.classList.remove("rotate", "active");
+// });
+
+hiddenArrow.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    hiddenPopup.classList.toggle("show");
+    hiddenArrow.classList.toggle("rotate");
+    hiddenArrow.classList.toggle("active");
+});
+
+document.addEventListener("click", () => {
+    hiddenPopup.classList.remove("show");
+    hiddenArrow.classList.remove("rotate", "active");
+});
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* ========================= */
 /* FETCHING DATE & TIME FROM A PUBLIC API */
 /* ========================= */
+
 async function updateInternetTime() {
     try {
         const res = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
@@ -92,25 +191,27 @@ setInterval(updateInternetTime, 60000);
 // First load
 updateInternetTime();
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* ========================= */
 /* LOGIC FOR CALENDAR POPUP */
 /* ========================= */
+
 const calendarPopup = document.getElementById("calendar-popup");
 const timeDateBtn = document.getElementById("time-date");
 
-timeDateBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    calendarPopup.style.display =
-        calendarPopup.style.display === "block" ? "none" : "block";
+// timeDateBtn.addEventListener("click", (e) => {
+//     e.stopPropagation();
+//     calendarPopup.style.display =
+//         calendarPopup.style.display === "block" ? "none" : "block";
 
-    renderCalendar();
-});
+//     renderCalendar();
+// });
 
-// Close calendar if clicked anywhere else
-document.addEventListener("click", () => {
-    calendarPopup.style.display = "none";
-});
+// // Close calendar if clicked anywhere else
+// document.addEventListener("click", () => {
+//     calendarPopup.style.display = "none";
+// });
 
 function renderCalendar() {
     const date = new Date();
@@ -154,11 +255,22 @@ function renderCalendar() {
         grid.appendChild(cell);
     }
 }
+timeDateBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    calendarPopup.classList.toggle("show");
+    renderCalendar();
+});
 
+document.addEventListener("click", () => {
+    calendarPopup.classList.remove("show");
+});
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* ========================= */
 /* NOTIFICATION ICON TOGGLE */
 /* ========================= */
+
 const notificationBtn = document.getElementById("notification-icon");
 const icon = notificationBtn.querySelector("i");
 
@@ -172,3 +284,48 @@ notificationBtn.addEventListener("click", () => {
     }
 });
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/* START MENU */
+/* ========================= */
+
+const startBtn = document.querySelector(".windows-start");
+const startMenu = document.getElementById("start-menu");
+
+startBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    startMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", () => {
+    startMenu.classList.remove("show");
+});
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/* DESKTOP BACKGROUND LOGIC  */
+/* ========================= */
+
+// List of desktop backgrounds
+const desktopBackgrounds = [
+    "./assets/wallpapers/Cartethyia.jpg",
+    "./assets/wallpapers/Chisa.jpg",
+    "./assets/wallpapers/Iuno.jpg",
+    "./assets/wallpapers/Phrolova.jpg",
+    "./assets/wallpapers/Shorekeeper.jpg"
+];
+
+let currentBgIndex = 0;
+
+function changeDesktopBackground() {
+    currentBgIndex++;
+
+    // Reset index when array ends
+    if (currentBgIndex >= desktopBackgrounds.length) {
+        currentBgIndex = 0;
+    }
+
+    desktop.style.backgroundImage = `url("${desktopBackgrounds[currentBgIndex]}")`;
+}
