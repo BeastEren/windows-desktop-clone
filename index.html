@@ -24,7 +24,16 @@
     <!-- DESKTOP AREA -->
     <!-- ========================= -->
     <main id="desktop">
+        <!-- Desktop selection box -->
+        <div id="selection-box"></div>
+
         <!-- Desktop icons will be placed here (grid initially, absolute later) -->
+        <!-- Recycle Bin Desktop Icon -->
+        <div class="desktop-icon recycle-bin" data-selected="false">
+            <img src="./assets/icons/emptyRecyclebin.webp" alt="Recycle Bin"
+                data-empty="./assets/icons/emptyRecyclebin.webp" data-full="./assets/icons/Recycle_bin_full.webp" />
+            <span>Recycle Bin</span>
+        </div>
 
         <!-- Desktop Right-Click Menu -->
         <div id="context-menu">
@@ -58,13 +67,95 @@
     <!-- ========================= -->
 
     <!-- START MENU POPUP -->
-    <div id="start-menu">
+    <!-- <div id="start-menu">
         <div class="start-header">Pinned</div>
         <div class="start-grid">
             <div class="start-app">Edge</div>
             <div class="start-app">Settings</div>
             <div class="start-app">Store</div>
             <div class="start-app">Terminal</div>
+        </div>
+    </div> -->
+
+    <!-- ========================= -->
+    <!-- START MENU -->
+    <!-- ========================= -->
+    <div id="start-menu">
+
+        <!-- Search bar -->
+        <div class="start-search">
+            <input type="text" placeholder="Search for apps, settings, and documents" />
+        </div>
+
+        <!-- Pinned Section -->
+        <div class="start-section">
+            <div class="section-header">
+                <span>Pinned</span>
+                <button class="section-btn">All &gt;</button>
+            </div>
+
+            <div class="start-grid">
+                <div class="start-app">
+                    <img src="./assets/icons/discord.png" />
+                    <span>Discord</span>
+                </div>
+
+                <div class="start-app">
+                    <img src="./assets/icons/file-explorar.png" />
+                    <span>File Explorer</span>
+                </div>
+
+                <div class="start-app">
+                    <img src="./assets/icons/Notepad_Win11.svg.png" />
+                    <span>Notepad</span>
+                </div>
+
+                <div class="start-app">
+                    <img src="./assets/icons/nvidia_settings_22459.webp" />
+                    <span>NVIDIA</span>
+                </div>
+
+                <div class="start-app">
+                    <img src="./assets/icons/Windows_Calculator_icon.png" />
+                    <span>Calculator</span>
+                </div>
+
+                <div class="start-app">
+                    <img src="./assets/icons/Windows-defender.svg.png" />
+                    <span>Defender</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Section -->
+        <div class="start-section">
+            <div class="section-header">
+                <span>Recommended</span>
+                <button class="section-btn">More &gt;</button>
+            </div>
+
+            <div class="recommended">
+                <div class="rec-item">
+                    <span class="rec-title">main.js</span>
+                    <span class="rec-sub">22h ago</span>
+                </div>
+
+                <div class="rec-item">
+                    <span class="rec-title">index.html</span>
+                    <span class="rec-sub">8h ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="start-footer">
+            <!-- PROFILE SECTION (Start Menu Footer / Header) -->
+            <div class="start-profile">
+                <img src="./assets/icons/profile.jpg" alt="User Profile">
+                <span class="profile-name">Sourav Singh</span>
+            </div>
+
+            <button class="power-btn">⏻</button>
         </div>
     </div>
 

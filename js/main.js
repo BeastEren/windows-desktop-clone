@@ -167,6 +167,7 @@ async function updateInternetTime() {
 
         document.getElementById("time").textContent = time;
         document.getElementById("date").textContent = date;
+        // updateLocalTime();
     } catch (error) {
         console.log("Internet time fetch failed. Using local device time.");
         updateLocalTime();
@@ -302,6 +303,10 @@ document.addEventListener("click", () => {
     startMenu.classList.remove("show");
 });
 
+startMenu.addEventListener("click", (e) => {
+    e.stopPropagation(); // keep start menu open
+});
+
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 /* ========================= */
@@ -329,3 +334,109 @@ function changeDesktopBackground() {
 
     desktop.style.backgroundImage = `url("${desktopBackgrounds[currentBgIndex]}")`;
 }
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/* DESKTOP SELECTION (DRAG) */
+/* ========================= */
+
+const selectionBox = document.getElementById("selection-box");
+
+let isSelecting = false;
+let startX = 0;
+let startY = 0;
+const TASKBAR_HEIGHT = 52;
+
+// START selection
+desktop.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+
+    // Block selection on taskbar / menus
+    if (
+        menu.contains(e.target) ||
+        document.getElementById("taskbar").contains(e.target)
+    ) return;
+
+    isSelecting = true;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    selectionBox.style.display = "block";
+    selectionBox.style.left = `${startX}px`;
+    selectionBox.style.top = `${startY}px`;
+    selectionBox.style.width = `0px`;
+    selectionBox.style.height = `0px`;
+});
+
+// UPDATE selection
+document.addEventListener("mousemove", (e) => {
+    if (!isSelecting) return;
+
+    const maxY = window.innerHeight - TASKBAR_HEIGHT;
+
+    const currentX = e.clientX;
+    const currentY = Math.min(e.clientY, maxY);
+
+    const x = Math.min(startX, currentX);
+    const y = Math.min(startY, currentY);
+
+    const width = Math.abs(currentX - startX);
+    const height = Math.abs(currentY - startY);
+
+    selectionBox.style.left = `${x}px`;
+    selectionBox.style.top = `${y}px`;
+    selectionBox.style.width = `${width}px`;
+    selectionBox.style.height = `${height}px`;
+});
+
+// END selection
+document.addEventListener("mouseup", () => {
+    if (!isSelecting) return;
+
+    isSelecting = false;
+    selectionBox.style.display = "none";
+});
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/* DESKTOP ICON SELECTION */
+/* ========================= */
+
+const desktopIcons = document.querySelectorAll(".desktop-icon");
+
+// Single click selection
+desktopIcons.forEach(icon => {
+    icon.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // Clear previous selections
+        desktopIcons.forEach(i => i.classList.remove("selected"));
+
+        icon.classList.add("selected");
+    });
+});
+
+// Click on empty desktop clears selection
+desktop.addEventListener("click", () => {
+    desktopIcons.forEach(i => i.classList.remove("selected"));
+});
+
+// function setRecycleBinState(isEmpty) {
+//     const recycleIcon = document.querySelector(".recycle-bin img");
+
+//     recycleIcon.src = isEmpty
+//         ? recycleIcon.dataset.empty
+//         : recycleIcon.dataset.full;
+// }
+
+// setRecycleBinState(false); // shows full bin
+// setRecycleBinState(true);  // shows empty bin
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+/* ========================= */
+/**/
+/* ========================= */ 
