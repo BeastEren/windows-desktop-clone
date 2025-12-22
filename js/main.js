@@ -395,6 +395,22 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("mouseup", () => {
     if (!isSelecting) return;
 
+    const selectionRect = selectionBox.getBoundingClientRect();
+
+    desktopIcons.forEach(icon => {
+        const iconRect = icon.getBoundingClientRect();
+
+        const isIntersecting =
+            selectionRect.left < iconRect.right &&
+            selectionRect.right > iconRect.left &&
+            selectionRect.top < iconRect.bottom &&
+            selectionRect.bottom > iconRect.top;
+
+        if (isIntersecting) {
+            icon.classList.add("selected");
+        }
+    });
+
     isSelecting = false;
     selectionBox.style.display = "none";
 });
@@ -424,16 +440,16 @@ desktop.addEventListener("click", () => {
     desktopIcons.forEach(i => i.classList.remove("selected"));
 });
 
-// function setRecycleBinState(isEmpty) {
-//     const recycleIcon = document.querySelector(".recycle-bin img");
+function setRecycleBinState(isEmpty) {
+    const recycleIcon = document.querySelector(".recycle-bin img");
 
-//     recycleIcon.src = isEmpty
-//         ? recycleIcon.dataset.empty
-//         : recycleIcon.dataset.full;
-// }
+    recycleIcon.src = isEmpty
+        ? recycleIcon.dataset.empty
+        : recycleIcon.dataset.full;
+}
 
-// setRecycleBinState(false); // shows full bin
-// setRecycleBinState(true);  // shows empty bin
+setRecycleBinState(false); // shows full bin
+setRecycleBinState(true);  // shows empty bin
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
