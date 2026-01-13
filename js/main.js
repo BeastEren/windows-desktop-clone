@@ -315,11 +315,9 @@ startMenu.addEventListener("click", (e) => {
 
 // List of desktop backgrounds
 const desktopBackgrounds = [
-    "./assets/wallpapers/Cartethyia.jpg",
-    "./assets/wallpapers/Chisa.jpg",
-    "./assets/wallpapers/Iuno.jpg",
-    "./assets/wallpapers/Phrolova.jpg",
-    "./assets/wallpapers/Shorekeeper.jpg"
+    "./assets/wallpapers/225b715ecc78c6071789f9f53caad786.jpg",
+    "./assets/wallpapers/pc-background-sczzraqq7smxmrt3.jpg",
+    "./assets/wallpapers/windows-11-windows-10-minimalism-hd-wallpaper-preview.jpg"
 ];
 
 let currentBgIndex = 0;
